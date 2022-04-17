@@ -1,13 +1,54 @@
 import 'package:flutter/material.dart';
 
-String getFullName(String firstName, String lastName) {
-  return '$firstName $lastName';
-}
-
-void printMyName() => print('Sameh Nagi');
-
 void main() {
   runApp(const MyApp());
+}
+
+void test() {
+  // Maps are used to hold key-value pairs of information
+  var person = {
+    'age': 20,
+    'name': 'Foo',
+  };
+  print(person);
+  person['name'] = 'FOOOOOOO';
+  print(person);
+
+  // SETS is a list of unique things
+  // var names = {'foo', 'bar', 'baz'}; // Set of strings
+  // names.add('foo');
+  // names.add('bar');
+  // names.add('baz');
+  // print(names);
+  // const things = {'foo', 1}; // Set of objects
+
+  // LISTS is a list of homogenous things
+  // final names = ['Foo', 'Bar', 'Baz'];
+  // final foo = names[2];
+  // print(foo);
+  // print(names.length);
+  // names.add('My name');
+  // print(names.length);
+
+  // final name = 'Foo Bar Baz';
+  // final nameTimes100 = name * 100;
+  // print(nameTimes100);
+
+  // var age = 20;
+  // final halfOfAge = age / 2;
+  // print(halfOfAge);
+  // final ageMinusOne = --age;
+  // print(age);
+  // print(ageMinusOne);
+
+  // const name = 'Foo';
+  // if (name == 'Foo') {
+  //   print('Yes this is foo');
+  // } else if (name != 'Bar') {
+  //   print('This value is not Bar');
+  // } else {
+  //   print("I don't know what this is");
+  // }
 }
 
 class MyApp extends StatelessWidget {
@@ -16,8 +57,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    print(getFullName('Foo', 'Bar'));
-    printMyName();
+    test();
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
