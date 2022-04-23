@@ -4,15 +4,54 @@ void main() {
   runApp(const MyApp());
 }
 
-void test() {
+void test(List<String>? names) {
+  final length = names?.length ??
+      0; // If the names list is not null, then grap its length. Else set length to 0
+  names?.add('Baz');
+
+  // String? name = firstName;
+  // name ??= middleName; // If firstName is Null then assign the middleName
+  // name ??= lastName;
+  // print(name);
+
+  // const String? firstName = null;
+  // const String? middleName = 'Bar';
+  // const String? lastName = 'Baz';
+  // // TO pick the first non-null value, we can do the following:
+  // if (firstName != null) {
+  //   print('first name is the first non-null value');
+  // } else if (middleName != null) {
+  //   print('middle name is the first non-null value');
+  // } else if (lastName != null) {
+  //   print("last name is the first non-null value");
+  // }
+  // // OR
+  // const firstNonNullValue = firstName ??
+  //     middleName ??
+  //     lastName; // firstName, are you null? YES, then I will pick the middleName, and so on.
+
+  // List<String>? names = ['Foo', 'Bar', null];  // Here the error is because the question mark is like a promise that the names might be absent and as soon as it is filled with some strings (i.e. Foo, and Bar), it cannot contain null
+  // To fix the previous error by:
+  // List<String?>? names = [
+  //   'Foo',
+  //   'Bar',
+  //   null
+  // ]; // We have a list of strings and it is called names. names can sometimes be null (i.e. it can be absent). If it is not absent, it can contain objects of type string that themselves sometimes be absent.
+  // names = null;
+
+  // String? name = null; // The question mark tells dart that name is a string and sometime it can be null
+  // print(name);
+  // name = 'Foo';
+  // print(name);
+
   // Maps are used to hold key-value pairs of information
-  var person = {
-    'age': 20,
-    'name': 'Foo',
-  };
-  print(person);
-  person['name'] = 'FOOOOOOO';
-  print(person);
+  // var person = {
+  //   'age': 20,
+  //   'name': 'Foo',
+  // };
+  // print(person);
+  // person['name'] = 'FOOOOOOO';
+  // print(person);
 
   // SETS is a list of unique things
   // var names = {'foo', 'bar', 'baz'}; // Set of strings
@@ -57,7 +96,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    test();
+    test(['Foo', 'Bar', 'Baz']);
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
