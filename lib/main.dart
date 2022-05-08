@@ -4,10 +4,144 @@ void main() {
   runApp(const MyApp());
 }
 
-void test(List<String>? names) {
-  final length = names?.length ??
-      0; // If the names list is not null, then grap its length. Else set length to 0
-  names?.add('Baz');
+// Enumerations
+// enum PersonProperties { firstName, lastName, age }
+// enum AnimalType { cat, dog, bunny }
+
+// void makeSureThisIsACat(AnimalType animalType) {
+//   if (animalType != AnimalType.cat)
+//     return; // This is to make sure that any code after this line is completely sure that the animalType is a cat.
+// }
+
+class Cat {
+  final String name;
+  Cat(this.name);
+  // Custome Operators
+  @override
+  bool operator ==(covariant Cat other) =>
+      other.name ==
+      name; // covariant tells Dart that forget what the super class (i.e. Object) defines as the parameter type and override it with Cat type
+
+  @override
+  int get hashCode => name.hashCode;
+
+  // Factory Constructors
+  // factory Cat.fluffBall() {
+  //   return Cat('Fluff Ball');
+  // }
+}
+
+// Abstract classes: They are like the normal classes, but they cannot be instantiated (i.e. final thing = LivingThin() is not possible)
+// abstract class LivingThing {
+//   void breath() {
+//     print('Living thing is breathing');
+//   }
+
+//   void move() {
+//     print('I am moving');
+//   }
+// }
+
+// Now the Cat class wants to use the methods of the LivingThing class, so it must inherit from it
+// class Cat extends LivingThing {}
+
+// Classes
+// Inheritance/Sub-classing
+// class LivingThing {
+//   void breath() {
+//     print('Living thing is breathing');
+//   }
+
+//   void move() {
+//     print('I am moving');
+//   }
+// }
+
+// // Now the Cat class wants to use the methods of the LivingThing class, so it must inherit from it
+// class Cat extends LivingThing {}
+
+// class Person {
+//   // Constructor is a special logic in a class that constructs or initializes or build that class's instance
+//   final String name;
+
+//   Person(
+//       this.name); // Here you will need to use a constructor to initialize this name.
+
+//   void printName() {
+//     print('I will now print the name of this person');
+//     print(name);
+//   }
+//   // void run() {
+//   //   print('Running');
+//   // }
+
+//   // void breath() {
+//   //   print('Breathing');
+//   // }
+// }
+
+void test() {
+  // Custome Operators: allow you to override the ability of your class to be used as an operand for normal operations
+  final cat1 = Cat('Foo');
+  final cat2 = Cat('Foo');
+  if (cat1 == cat2) {
+    print('They are equal');
+  } else {
+    print('They are not equal');
+  }
+  // Factory Constructors is a way to construct instances of your classes using convenience functions
+  // final fluffBall = Cat('Fluff ball');
+  // print(fluffBall.name);
+  // // Instead, you can use the factory constructor as follows:
+  // final flufBallCpy = Cat.fluffBall();
+  // print(fluffBall.name);
+
+  // Abstract classes
+  // final thing = LivingThing(); ==> Here you will get an error because LivingThing cannot be instantiated.
+  // final fluffers = Cat();
+
+  // Classes are grouping o f various functionalities into one packagable piece of data.
+  // Inheritance/Sub-classing
+  // final fluffers = Cat();
+  // fluffers.move();
+  // fluffers.breath();
+
+  // Instances are objects and objects are created from classes.
+  // Now you will say a person variable is an instance of that Person class.
+  // final foo = Person('Foo Bar');
+  // print(foo.name);
+  // foo.printName();
+
+  // final person = Person();
+  // person.run();
+  // person.breath();
+
+  // Enumerations are named list of related items
+  // print(animalType);
+  // if (animalType == AnimalType.cat) {
+  //   print("Oh I love cats");
+  // } else if (animalType == AnimalType.dog) {
+  //   print("Dogy are so fluffy");
+  // } else if (animalType == AnimalType.bunny) {
+  //   print("I wish I had a bunny");
+  // }
+  // // It is recommended to use switch statement here
+  // switch (animalType) {
+  //   case AnimalType.bunny:
+  //     print("Bunny");
+  //     break;
+  //   case AnimalType.cat:
+  //     print("Cat");
+  //     break;
+  //   case AnimalType.dog:
+  //     print("Dog");
+  //     break;
+  // }
+  // print("FUNCTION IS FINISHED");
+
+  // final length = names?.length ??
+  //     0; // If the names (i.e. List<String>? names) list is not null, then grap its length. Else set length to 0
+  // names?.add('Baz');
 
   // String? name = firstName;
   // name ??= middleName; // If firstName is Null then assign the middleName
@@ -96,7 +230,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    test(['Foo', 'Bar', 'Baz']);
+    test();
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
