@@ -13,23 +13,87 @@ void main() {
 //     return; // This is to make sure that any code after this line is completely sure that the animalType is a cat.
 // }
 
-class Cat {
-  final String name;
-  Cat(this.name);
-  // Custome Operators
-  @override
-  bool operator ==(covariant Cat other) =>
-      other.name ==
-      name; // covariant tells Dart that forget what the super class (i.e. Object) defines as the parameter type and override it with Cat type
-
-  @override
-  int get hashCode => name.hashCode;
-
-  // Factory Constructors
-  // factory Cat.fluffBall() {
-  //   return Cat('Fluff Ball');
-  // }
+// Generics: Used to avoid re-writing similar code.
+class PairOfStrings {
+  final String value1;
+  final String value2;
+  PairOfStrings(this.value1, this.value2);
 }
+
+class PairOfIntegers {
+  final int value1;
+  final int value2;
+  PairOfIntegers(this.value1, this.value2);
+}
+
+// So instead of doing this pairOf .....etc, you can do the following:
+class Pair<A, B> {
+  // Here you define Pair with generic datatype A, and B
+  final A value1;
+  final B value2;
+  Pair(this.value1, this.value2);
+}
+
+// Generators: A function (marked with sync* or async*) that returns a list of things but it internally calculates that data in a very simple way
+// Iterable<int> getOneTwoThree() sync* {
+// Iterables are lazy collections.
+//   yield 1;
+//   yield 2;
+//   yield 3;
+// }
+
+// Streams: An asynchronous "pipe" of data (i.e. continuous pipe of information)
+// Stream<String> getName() {
+//   // return Stream.value('Foo');
+//   return Stream.periodic(const Duration(seconds: 1), (value) {
+//     return 'Foo';
+//   });
+// }
+
+// Future: Data to be returned in the future (async programming).
+// int multipledByTwo(int a) => a * 2; // This is a sync operation
+// Future<int> heavyFutureThatMultipliesByTwo(int a) {
+//   return Future.delayed(const Duration(seconds: 3), () {
+//     return a * 2;
+//   });
+// }
+
+// class Cat {
+//   final String name;
+//   Cat(this.name);
+
+// Custome Operators
+// @override
+// bool operator ==(covariant Cat other) =>
+//     other.name ==
+//     name; // covariant tells Dart that forget what the super class (i.e. Object) defines as the parameter type and override it with Cat type
+
+// @override
+// int get hashCode => name.hashCode;
+
+// Factory Constructors
+// factory Cat.fluffBall() {
+//   return Cat('Fluff Ball');
+// }
+// }
+
+// Extensions: Adding logic to existing classes
+// extension Run on Cat {
+//   void run() {
+//     print('Cat $name is running');
+//   }
+// }
+
+// class Person {
+//   final String firstName;
+//   final String lastName;
+
+//   Person(this.firstName, this.lastName);
+// }
+
+// extension FullName on Person {
+//   String get fullName => '$firstName $lastName';
+// }
 
 // Abstract classes: They are like the normal classes, but they cannot be instantiated (i.e. final thing = LivingThin() is not possible)
 // abstract class LivingThing {
@@ -81,14 +145,57 @@ class Cat {
 // }
 
 void test() {
+  // Generics
+  final names = Pair('foo',
+      20); // Here, dart is smart enough to understand that names is a pair of String and an int.
+
+  // Generators
+  // print(getOneTwoThree());
+  // OR you can use the lazy cabapility of an iterable by a for loop
+  // for (final value in getOneTwoThree()) {
+  //   print(value);
+  // }
+  // Also, you can break from the loop at a certain condition as follows:
+  // for (final value in getOneTwoThree()) {
+  //   print(value);
+  //   if (value == 2) {
+  //     break;
+  //   }
+  // }
+
+  // Streams
+// void test() async {
+  // final value = getName();
+  // print(value); // Here you will get Instance of '_ControllerStream<String>'
+  // You get the value by prefixing the function with the keyword "await for"
+  // await for (final value in getName()) {
+  //   print(value);
+  // }
+  // print('Stream finished working');
+
+  // Future
+// void test() async {
+  // async is a keyword that marks a function as a synchronous which means it will executes some commands that will not return immedietly
+  // final result = heavyFutureThatMultipliesByTwo(10);
+  // print(
+  //     result); // Here you will get Instance of 'Future<int>' and not the actual value  20
+  // You get the value back by prefixing the function with the keyword "await" which will wait for the result of this function to be calculated and then move to the next line
+  // final result2 = await heavyFutureThatMultipliesByTwo(10);
+  // print(result2);
+
+  // Extensions
+  // final meow = Cat('Fluffers');
+  // meow.run();
+  // final foo = Person('Foo', 'Bar');
+  // print(foo.fullName);
   // Custome Operators: allow you to override the ability of your class to be used as an operand for normal operations
-  final cat1 = Cat('Foo');
-  final cat2 = Cat('Foo');
-  if (cat1 == cat2) {
-    print('They are equal');
-  } else {
-    print('They are not equal');
-  }
+  // final cat1 = Cat('Foo');
+  // final cat2 = Cat('Foo');
+  // if (cat1 == cat2) {
+  //   print('They are equal');
+  // } else {
+  //   print('They are not equal');
+  // }
   // Factory Constructors is a way to construct instances of your classes using convenience functions
   // final fluffBall = Cat('Fluff ball');
   // print(fluffBall.name);
