@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "474274791962",
+    "project_id": "mynotes-a8b7c",
+    "storage_bucket": "mynotes-a8b7c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474274791962:android:05e7a5c00608d61b5387a3",
+        "android_client_info": {
+          "package_name": "eg.flotas.mynotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474274791962-qd9dmipv2fssetntr8b24psocg5uep97.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0tEy3zuMgNp4NRUnJJG8z02rySlIoePQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474274791962-qd9dmipv2fssetntr8b24psocg5uep97.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
