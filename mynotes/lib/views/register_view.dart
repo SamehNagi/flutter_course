@@ -30,59 +30,79 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          controller: _email,
-          enableSuggestions: false,
-          autocorrect: false,
-          keyboardType: TextInputType.emailAddress,
-          decoration: const InputDecoration(
-            hintText: 'Enter your email here',
+    // LoginView is being embedded into HomePage which has a scaffold.
+    // So, since we did now added a scaffold into the build method of LoginView,
+    // we must remove the scaffold of the HomePage,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Register'),
+      ),
+      body: Column(
+        children: [
+          TextField(
+            controller: _email,
+            enableSuggestions: false,
+            autocorrect: false,
+            keyboardType: TextInputType.emailAddress,
+            decoration: const InputDecoration(
+              hintText: 'Enter your email here',
+            ),
           ),
-        ),
-        TextField(
-          controller: _password,
-          obscureText: true,
-          enableSuggestions: false,
-          autocorrect: false,
-          decoration: const InputDecoration(
-            hintText: 'Enter your password here',
+          TextField(
+            controller: _password,
+            obscureText: true,
+            enableSuggestions: false,
+            autocorrect: false,
+            decoration: const InputDecoration(
+              hintText: 'Enter your password here',
+            ),
           ),
-        ),
-        TextButton(
-          onPressed: () async {
-            final email = _email.text;
-            final password = _password.text;
-            try {
-              final userCredentials =
-                  await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                email: email,
-                password: password,
+          TextButton(
+            onPressed: () async {
+              final email = _email.text;
+              final password = _password.text;
+              try {
+                final userCredentials =
+                    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                  email: email,
+                  password: password,
+                );
+                print(userCredentials);
+              } on FirebaseAuthException catch (e) {
+                // print(e.code);
+                if (e.code == 'weak-password') {
+                  print('Weak password');
+                }
+                // else {
+                //   print(e);
+                // }
+                else if (e.code == 'email-already-in-use') {
+                  print('Email is already in use');
+                }
+                // else {
+                //   print(e.code);
+                // }
+                else if (e.code == 'invalid-email') {
+                  print('Invalid email entered');
+                }
+              }
+            },
+            child: const Text('Register'),
+          ),
+          TextButton(
+            onPressed: () {
+              // Now we will remove everything before pushing the new route.
+              // This will cause an issue because we cannot just push a column without scaffold,
+              // because at this moment, the build method of the LoginView is returning a column.
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                '/login/',
+                (route) => false,
               );
-              print(userCredentials);
-            } on FirebaseAuthException catch (e) {
-              // print(e.code);
-              if (e.code == 'weak-password') {
-                print('Weak password');
-              }
-              // else {
-              //   print(e);
-              // }
-              else if (e.code == 'email-already-in-use') {
-                print('Email is already in use');
-              }
-              // else {
-              //   print(e.code);
-              // }
-              else if (e.code == 'invalid-email') {
-                print('Invalid email entered');
-              }
-            }
-          },
-          child: const Text('Register'),
-        ),
-      ],
+            },
+            child: const Text('Already registered? Login here!'),
+          ),
+        ],
+      ),
     );
   }
 }
