@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+// Only import a specific part of the package developer and give the package an alias
+// and then use it as devtools.log
+import 'dart:developer' as devtools show log;
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -57,26 +60,30 @@ class _LoginViewState extends State<LoginView> {
               final email = _email.text;
               final password = _password.text;
               try {
-                final userCredentials =
-                    await FirebaseAuth.instance.signInWithEmailAndPassword(
+                // final userCredentials =
+                await FirebaseAuth.instance.signInWithEmailAndPassword(
                   email: email,
                   password: password,
                 );
-                print(userCredentials);
+                // devtools.log(userCredentials.toString());
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/notes/',
+                  (route) => false,
+                );
               } on FirebaseAuthException catch (e) {
                 // This is to only catch the errors with runtime type of FirebaseAuthException
                 // print(e.runtimeType);
                 // print('something bad happened');
                 // print(e);
                 if (e.code == 'user-not-found') {
-                  print('User not found');
+                  devtools.log('User not found');
                 }
                 // else {
                 //   print('something else happened');
                 //   print(e.code);
                 // }
                 else if (e.code == 'wrong-password') {
-                  print('Wrong password');
+                  devtools.log('Wrong password');
                 }
               }
             },
