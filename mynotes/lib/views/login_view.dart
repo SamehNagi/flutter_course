@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 // and then use it as devtools.log
 import 'dart:developer' as devtools show log;
 
+import '../constants/routes.dart';
+
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
 
@@ -67,7 +69,7 @@ class _LoginViewState extends State<LoginView> {
                 );
                 // devtools.log(userCredentials.toString());
                 Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/notes/',
+                  notesRoute,
                   (route) => false,
                 );
               } on FirebaseAuthException catch (e) {
@@ -95,7 +97,7 @@ class _LoginViewState extends State<LoginView> {
               // This will cause an issue because we cannot just push a column without scaffold,
               // because at this moment, the build method of the RegisterView is returning a column.
               Navigator.of(context).pushNamedAndRemoveUntil(
-                '/register/',
+                registerRoute,
                 (route) => false,
               );
             },

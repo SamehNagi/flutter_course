@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 // and then use it as devtools.log
 import 'dart:developer' as devtools show log;
 
+import '../constants/routes.dart';
+
 class RegisterView extends StatefulWidget {
   const RegisterView({Key? key}) : super(key: key);
 
@@ -96,7 +98,7 @@ class _RegisterViewState extends State<RegisterView> {
               // This will cause an issue because we cannot just push a column without scaffold,
               // because at this moment, the build method of the LoginView is returning a column.
               Navigator.of(context).pushNamedAndRemoveUntil(
-                '/login/',
+                loginRoute,
                 (route) => false,
               );
             },
