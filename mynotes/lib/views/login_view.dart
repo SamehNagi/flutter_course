@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:mynotes/utilities/show_error_dialog.dart';
 // Only import a specific part of the package developer and give the package an alias
 // and then use it as devtools.log
-import 'dart:developer' as devtools show log;
-
+// import 'dart:developer' as devtools show log;
 import '../constants/routes.dart';
 
 class LoginView extends StatefulWidget {
@@ -78,15 +78,39 @@ class _LoginViewState extends State<LoginView> {
                 // print('something bad happened');
                 // print(e);
                 if (e.code == 'user-not-found') {
-                  devtools.log('User not found');
+                  // devtools.log('User not found');
+                  await showErrorDialog(
+                    context,
+                    'User not found',
+                  );
                 }
                 // else {
                 //   print('something else happened');
                 //   print(e.code);
                 // }
                 else if (e.code == 'wrong-password') {
-                  devtools.log('Wrong password');
+                  // devtools.log('Wrong password');
+                  await showErrorDialog(
+                    context,
+                    'Wrong password',
+                  );
+                  // Hnalding other Firebase authentication exceptions
+                } else {
+                  await showErrorDialog(
+                    context,
+                    'Error: ${e.code}',
+                  );
                 }
+                // Handling other errors that might arise
+                // This is a generic catch block meaning that if the exception that occurs in the try
+                // statement is not a Firebase athentication exception, then in this catch block.
+              } catch (e) {
+                // Here any other exception is an object not known to me and it is up to you to
+                // display that error.
+                await showErrorDialog(
+                  context,
+                  e.toString(),
+                );
               }
             },
             child: const Text('Login'),
