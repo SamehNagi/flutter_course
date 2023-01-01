@@ -69,6 +69,7 @@ class _LoginViewState extends State<LoginView> {
                 );
                 // devtools.log(userCredentials.toString());
                 final user = FirebaseAuth.instance.currentUser;
+                // We can login with a user who hasn't confirmed their email. So we need to handle this.
                 if (user?.emailVerified ?? false) {
                   // user's email is verified
                   Navigator.of(context).pushNamedAndRemoveUntil(
@@ -104,7 +105,7 @@ class _LoginViewState extends State<LoginView> {
                     context,
                     'Wrong password',
                   );
-                  // Hnalding other Firebase authentication exceptions
+                  // Handling other Firebase authentication exceptions
                 } else {
                   await showErrorDialog(
                     context,
