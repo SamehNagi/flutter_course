@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:mynotes/services/auth/auth_exceptions.dart';
+import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/utilities/show_error_dialog.dart';
 // Only import a specific part of the package developer and give the package an alias
 // and then use it as devtools.log
@@ -63,14 +64,17 @@ class _LoginViewState extends State<LoginView> {
               final password = _password.text;
               try {
                 // final userCredentials =
-                await FirebaseAuth.instance.signInWithEmailAndPassword(
+                // await FirebaseAuth.instance.signInWithEmailAndPassword(
+                await AuthService.firebase().logIn(
                   email: email,
                   password: password,
                 );
                 // devtools.log(userCredentials.toString());
-                final user = FirebaseAuth.instance.currentUser;
+                // final user = FirebaseAuth.instance.currentUser;
+                final user = AuthService.firebase().currentUser;
                 // We can login with a user who hasn't confirmed their email. So we need to handle this.
-                if (user?.emailVerified ?? false) {
+                // if (user?.emailVerified ?? false) {
+                if (user?.isEmailVerified ?? false) {
                   // user's email is verified
                   Navigator.of(context).pushNamedAndRemoveUntil(
                     notesRoute,
@@ -83,46 +87,63 @@ class _LoginViewState extends State<LoginView> {
                     (route) => false,
                   );
                 }
-              } on FirebaseAuthException catch (e) {
-                // This is to only catch the errors with runtime type of FirebaseAuthException
-                // print(e.runtimeType);
-                // print('something bad happened');
-                // print(e);
-                if (e.code == 'user-not-found') {
-                  // devtools.log('User not found');
-                  await showErrorDialog(
-                    context,
-                    'User not found',
-                  );
-                }
-                // else {
-                //   print('something else happened');
-                //   print(e.code);
-                // }
-                else if (e.code == 'wrong-password') {
-                  // devtools.log('Wrong password');
-                  await showErrorDialog(
-                    context,
-                    'Wrong password',
-                  );
-                  // Handling other Firebase authentication exceptions
-                } else {
-                  await showErrorDialog(
-                    context,
-                    'Error: ${e.code}',
-                  );
-                }
-                // Handling other errors that might arise
-                // This is a generic catch block meaning that if the exception that occurs in the try
-                // statement is not a Firebase athentication exception, then in this catch block.
-              } catch (e) {
-                // Here any other exception is an object not known to me and it is up to you to
-                // display that error.
+              } on UserNotFoundAuthException {
                 await showErrorDialog(
                   context,
-                  e.toString(),
+                  'User not found',
+                );
+              } on WrongPasswordAuthException {
+                await showErrorDialog(
+                  context,
+                  'Wrong password',
+                );
+              } on GenericAuthException {
+                await showErrorDialog(
+                  context,
+                  'Authentication error',
                 );
               }
+
+              // on FirebaseAuthException catch (e) {
+              //   // This is to only catch the errors with runtime type of FirebaseAuthException
+              //   // print(e.runtimeType);
+              //   // print('something bad happened');
+              //   // print(e);
+              //   if (e.code == 'user-not-found') {
+              //     // devtools.log('User not found');
+              //     await showErrorDialog(
+              //       context,
+              //       'User not found',
+              //     );
+              //   }
+              //   // else {
+              //   //   print('something else happened');
+              //   //   print(e.code);
+              //   // }
+              //   else if (e.code == 'wrong-password') {
+              //     // devtools.log('Wrong password');
+              //     await showErrorDialog(
+              //       context,
+              //       'Wrong password',
+              //     );
+              //     // Handling other Firebase authentication exceptions
+              //   } else {
+              //     await showErrorDialog(
+              //       context,
+              //       'Error: ${e.code}',
+              //     );
+              //   }
+              //   // Handling other errors that might arise
+              //   // This is a generic catch block meaning that if the exception that occurs in the try
+              //   // statement is not a Firebase athentication exception, then in this catch block.
+              // } catch (e) {
+              //   // Here any other exception is an object not known to me and it is up to you to
+              //   // display that error.
+              //   await showErrorDialog(
+              //     context,
+              //     e.toString(),
+              //   );
+              // }
             },
             child: const Text('Login'),
           ),

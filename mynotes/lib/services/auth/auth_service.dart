@@ -1,5 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:mynotes/services/auth/auth_provider.dart';
 import 'package:mynotes/services/auth/auth_user.dart';
+import 'package:mynotes/services/auth/firebase_auth_provider.dart';
 
 // Here we need to implement an AuthService class which implements an AuthProvider
 // It relays the messages of the given auth provider, but can have more logic.
@@ -9,8 +11,10 @@ class AuthService implements AuthProvider {
   // functionalities from that auth provider to the outside world with the ability to maybe even
   // change that data before it returns it to you.
   final AuthProvider provider;
-
   const AuthService(this.provider);
+
+  // is to return an instance of our AuthService that is already configured with a FirebaseAuthProvider
+  factory AuthService.firebase() => AuthService(FirebaseAuthProvider());
 
   @override
   Future<AuthUser> createUser({
@@ -39,4 +43,7 @@ class AuthService implements AuthProvider {
 
   @override
   Future<void> sendEmailVerification() => provider.sendEmailVerification();
+
+  @override
+  Future<void> initialize() => provider.initialize();
 }

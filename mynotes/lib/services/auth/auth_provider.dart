@@ -9,6 +9,8 @@ import 'package:mynotes/services/auth/auth_user.dart';
 // Though abstract classes in dart can contain logic but in this case out abstract
 // class is just going to be a protocol / interface.
 abstract class AuthProvider {
+  Future<void> initialize();
+
   // What we need to do now is to give it the ability to return the current auth user.
   AuthUser? get currentUser;
 
