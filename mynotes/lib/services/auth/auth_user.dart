@@ -27,9 +27,26 @@ import 'package:flutter/foundation.dart';
 @immutable // immutable is an innotation that this class and any subclasses are going to be immutable (i.e. their internals are not going to be changed upon initialization)
 class AuthUser {
   final bool isEmailVerified;
-  const AuthUser(this.isEmailVerified);
+  // const AuthUser(this.isEmailVerified);
+  const AuthUser({required this.isEmailVerified});
 
   // Now we need a factory constructor that creates our AuthUser from a Firebase user
-  factory AuthUser.fromFirebase(User user) => AuthUser(user.emailVerified);
+  // factory AuthUser.fromFirebase(User user) => AuthUser(user.emailVerified, isEmailVerified: null);
+  factory AuthUser.fromFirebase(User user) =>
+      AuthUser(isEmailVerified: user.emailVerified);
   // So all we did here is we copied the Firebase user into out own AuthUser.
+
+  // void testing() {
+  // If in anywhere inside our app we want to create an instance of AuthUser, you'll
+  // probable do like this:
+  // AuthUser(true);
+  // However you'll see that the paramter has no name, it is just a true or false.
+  // If I as a programmer see AuthUse(true) OR AuthUse(false), I don't understand
+  // what true or false is? What does that even mean?
+  // For that, dart has the capability to give you required named parameters and
+  // that means that instead of passing true in here, you will be forced to write:
+  // AuthUser(isEmailVerified: true);
+  // In order to do that, wrap it inside curley brackets and add the keyword required:
+  // ====> const AuthUser({required this.isEmailVerified});
+  // }
 }
